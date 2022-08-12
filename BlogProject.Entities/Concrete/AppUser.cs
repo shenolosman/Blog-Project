@@ -10,6 +10,7 @@ namespace BlogProject.Entities.Concrete
         public string Name { get; set; }
         public string Surname { get; set; }
 
+        public List<Blog> Blogs { get; set; }
         //For improve this project can add roles as editor, admin,member, etc.
     }
 }
