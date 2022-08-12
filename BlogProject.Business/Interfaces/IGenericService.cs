@@ -1,9 +1,9 @@
 ﻿using BlogProject.Entities.Interfaces;
 using System.Linq.Expressions;
 
-namespace BlogProject.DataAccess.Interfaces
+namespace BlogProject.Business.Interfaces
 {
-    public interface IGenericDal<TEntity> where TEntity : class, ITable, new()
+    public interface IGenericService<TEntity> where TEntity : class, ITable, new()
     {
         Task<List<TEntity>> GelAllAsync();
         Task<List<TEntity>> GelAllAsync(Expression<Func<TEntity, bool>> filter);

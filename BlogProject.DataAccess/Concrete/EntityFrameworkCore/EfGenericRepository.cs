@@ -20,12 +20,12 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore
             return await context.Set<TEntity>().Where(filter).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GelAllSortAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
+        public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
         {
             await using var context = new DatabaseContext();
             return await context.Set<TEntity>().Where(filter).OrderByDescending(keySelector).ToListAsync();
         }
-        public async Task<List<TEntity>> GelAllSortAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
+        public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
         {
             await using var context = new DatabaseContext();
             return await context.Set<TEntity>().OrderByDescending(keySelector).ToListAsync();
