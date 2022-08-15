@@ -1,4 +1,5 @@
-﻿using BlogProject.Entities.Concrete;
+﻿using BlogProject.DataAccess.Concrete.EntityFrameworkCore.Mapping;
+using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Context
@@ -10,10 +11,19 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Context
             optionsBuilder.UseSqlServer("server=(localdb)\\mssqllocaldb;database=BlogProjectAspCore;Integrated Security=True;");
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new AppUserMap());
+            modelBuilder.ApplyConfiguration(new BlogMap());
+            modelBuilder.ApplyConfiguration(new CategoryBlogMap());
+            modelBuilder.ApplyConfiguration(new CategoryMap());
+            modelBuilder.ApplyConfiguration(new CommentMap());
+        }
+
         public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<Comment> Comments { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryBlog> CategoryBlogs { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Mapping
 
             builder.Property(x => x.ImagePath).HasMaxLength(300);
 
-            builder.HasMany(x => x.Comments).WithOne(x => x.Blog).HasForeignKey(x => x.Id);
+            builder.HasMany(x => x.Comments).WithOne(x => x.Blog).HasForeignKey(x => x.BlogId);
 
             builder.HasMany(x => x.CategoryBlogs).WithOne(x => x.Blog).HasForeignKey(x => x.BlogId);
         }
