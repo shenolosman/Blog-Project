@@ -1,6 +1,6 @@
 ﻿using BlogProject.Business.Concrete;
 using BlogProject.Business.Interfaces;
-using BlogProject.DataAccess.Concrete.EntityFrameworkCore;
+using BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories;
 using BlogProject.DataAccess.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 

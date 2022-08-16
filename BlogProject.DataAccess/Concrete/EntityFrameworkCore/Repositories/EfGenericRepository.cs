@@ -4,7 +4,7 @@ using BlogProject.Entities.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore
+namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfGenericRepository<TEntity> : IGenericDal<TEntity> where TEntity : class, ITable, new()
     {
@@ -25,6 +25,13 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore
             await using var context = new DatabaseContext();
             return await context.Set<TEntity>().Where(filter).OrderByDescending(keySelector).ToListAsync();
         }
+
+        public async Task<TEntity> FinByIdAsync(int id)
+        {
+            await using var context = new DatabaseContext();
+            return await context.FindAsync<TEntity>(id);
+        }
+
         public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
         {
             await using var context = new DatabaseContext();

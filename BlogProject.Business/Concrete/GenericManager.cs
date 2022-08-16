@@ -1,7 +1,6 @@
 ﻿using BlogProject.Business.Interfaces;
 using BlogProject.DataAccess.Interfaces;
 using BlogProject.Entities.Interfaces;
-using System.Linq.Expressions;
 
 namespace BlogProject.Business.Concrete
 {
@@ -18,25 +17,30 @@ namespace BlogProject.Business.Concrete
             return await _genericDal.GelAllAsync();
         }
 
-        public async Task<List<TEntity>> GelAllAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<TEntity> FinByIdAsync(int id)
         {
-            return await _genericDal.GelAllAsync(filter);
+            return await _genericDal.FinByIdAsync(id);
         }
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
-        {
-            return await _genericDal.GetAsync(filter);
-        }
+        //public async Task<List<TEntity>> GelAllAsync(Expression<Func<TEntity, bool>> filter)
+        //{
+        //    return await _genericDal.GelAllAsync(filter);
+        //}
 
-        public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
-        {
-            return await _genericDal.GelAllAsync(keySelector);
-        }
+        //public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
+        //{
+        //    return await _genericDal.GetAsync(filter);
+        //}
 
-        public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
-        {
-            return await _genericDal.GelAllAsync(filter, keySelector);
-        }
+        //public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
+        //{
+        //    return await _genericDal.GelAllAsync(keySelector);
+        //}
+
+        //public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
+        //{
+        //    return await _genericDal.GelAllAsync(filter, keySelector);
+        //}
 
         public async Task AddAsync(TEntity entity)
         {
