@@ -14,7 +14,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       //"launchUrl": "swagger",
-      "launchUrl": "api/blog",
+      "launchUrl": "api/blogs",
       "applicationUrl": "http://localhost:5297",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -24,7 +24,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       //"launchUrl": "swagger",
-      "launchUrl": "api/blog",
+      "launchUrl": "api/blogs",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
