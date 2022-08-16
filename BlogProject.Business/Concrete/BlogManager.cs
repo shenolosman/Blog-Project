@@ -11,5 +11,10 @@ namespace BlogProject.Business.Concrete
         {
             _genericDal = genericDal;
         }
+
+        public async Task<List<Blog>> GelAllSortedByPostedTimeAsync()
+        {
+            return await _genericDal.GelAllAsync(x => x.PostedTime);
+        }
     }
 }
