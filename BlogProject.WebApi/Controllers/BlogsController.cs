@@ -1,5 +1,8 @@
-﻿using BlogProject.Business.Interfaces;
+﻿using AutoMapper;
+using BlogProject.Business.Interfaces;
+using BlogProject.DTO.DTOs.Blog;
 using BlogProject.Entities.Concrete;
+using BlogProject.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProject.WebApi.Controllers
@@ -9,35 +12,37 @@ namespace BlogProject.WebApi.Controllers
     public class BlogsController : ControllerBase
     {
         private readonly IBlogService _blogService;
+        private readonly IMapper _mapper;
 
-        public BlogsController(IBlogService blogService)
+        public BlogsController(IBlogService blogService, IMapper mapper)
         {
             _blogService = blogService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _blogService.GelAllSortedByPostedTimeAsync());
+            return Ok(_mapper.Map<List<BlogListDto>>(await _blogService.GelAllSortedByPostedTimeAsync()));
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            return Ok(await _blogService.FinByIdAsync(id));
+            return Ok(_mapper.Map<BlogListDto>(await _blogService.FinByIdAsync(id)));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Blog model)
+        public async Task<IActionResult> Create(BlogAddModel model)
         {
-            await _blogService.AddAsync(model);
+            await _blogService.AddAsync(_mapper.Map<Blog>(model));
             return Created("", model);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Blog model)
+        public async Task<IActionResult> Update(int id, BlogUpdateModel model)
         {
             if (id != model.Id)
                 return BadRequest("No valid id");
-            await _blogService.UpdateAsync(model);
+            await _blogService.UpdateAsync(_mapper.Map<Blog>(model));
             return NoContent();
         }
         [HttpDelete("{id}")]
