@@ -1,6 +1,8 @@
-﻿namespace BlogProject.DTO.DTOs.Blog
+﻿using BlogProject.DTO.Interface;
+
+namespace BlogProject.DTO.DTOs.Blog
 {
-    public class BlogListDto
+    public class BlogListDto : IDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
