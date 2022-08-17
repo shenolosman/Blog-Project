@@ -11,7 +11,7 @@ namespace BlogProject.Business.Interfaces
 
         //Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter,
         //    Expression<Func<TEntity, Tkey>> keySelector);
-        Task<TEntity> FinByIdAsync(int id);
+        Task<TEntity> FindByIdAsync(int id);
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task RemoveAsync(TEntity entity);

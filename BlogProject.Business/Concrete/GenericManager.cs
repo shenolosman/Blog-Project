@@ -17,7 +17,7 @@ namespace BlogProject.Business.Concrete
             return await _genericDal.GelAllAsync();
         }
 
-        public async Task<TEntity> FinByIdAsync(int id)
+        public async Task<TEntity> FindByIdAsync(int id)
         {
             return await _genericDal.FinByIdAsync(id);
         }
