@@ -1,8 +1,11 @@
+using BlogProject.Web.ApiServices.Concrete;
+using BlogProject.Web.ApiServices.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddHttpClient<IBlogApiService, BlogApiManager>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

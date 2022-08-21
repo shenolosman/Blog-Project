@@ -1,4 +1,5 @@
-﻿using BlogProject.Web.Models;
+﻿using BlogProject.Web.ApiServices.Interfaces;
+using BlogProject.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +8,17 @@ namespace BlogProject.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBlogApiService _blogApiService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBlogApiService blogApiService)
         {
             _logger = logger;
+            _blogApiService = blogApiService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _blogApiService.GetAllAsync());
         }
 
         public IActionResult Privacy()
