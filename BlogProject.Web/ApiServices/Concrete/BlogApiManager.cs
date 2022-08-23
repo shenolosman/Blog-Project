@@ -11,7 +11,7 @@ namespace BlogProject.Web.ApiServices.Concrete
         public BlogApiManager(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5297/api/blogs/"); // from api applicationUrl in launchSettings
+            _httpClient.BaseAddress = new Uri("http://localhost:5000/api/Blogs/"); // from api applicationUrl in launchSettings
         }
         public async Task<List<BlogListModel>> GetAllAsync()
         {

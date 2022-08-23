@@ -11,7 +11,7 @@ namespace BlogProject.Web.ApiServices.Concrete
         public CategoryManager(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5297/api/categories/");
+            _httpClient.BaseAddress = new Uri("http://localhost:5000/api/Category/");
         }
         public async Task<List<CategoryListModel>> GetAllAsync()
         {
