@@ -23,5 +23,16 @@ namespace BlogProject.Web.ApiServices.Concrete
 
             return null;
         }
+
+        public async Task<BlogListModel> GetByIdAsync(int id)
+        {
+            var responseMsg = await _httpClient.GetAsync($"{id}");
+            if (responseMsg.IsSuccessStatusCode)
+            {
+                JsonConvert.DeserializeObject<BlogListModel>(await responseMsg.Content.ReadAsStringAsync());
+            }
+
+            return null;
+        }
     }
 }

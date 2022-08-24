@@ -12,7 +12,7 @@
         <div class="card-body">
             <div class="small text-muted">@blog.Title</div>
             <h2 class="card-title">@blog.ShortDescription</h2>
-            <a class="btn btn-primary" href="#!">Read more →</a>
+            <a class="btn btn-primary" asp-action="BlogDetail" asp-controller="Home" asp-route-id="@blog.Id">Read more →</a>
         </div>
         <div class="card-footer text-muted">Posted on @blog.PostedTime.ToLongDateString()</div>
     </div>
