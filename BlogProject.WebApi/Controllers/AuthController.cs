@@ -20,11 +20,18 @@ namespace BlogProject.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(AppUserLoginDto appUserLoginDto)
         {
-            var user = await _appUserService.CheckUser(appUserLoginDto);
+            var user = await _appUserService.CheckUserAsync(appUserLoginDto);
             if (user == null)
                 return BadRequest("Username or password is false!");
 
             return Created("", _jwtService.GenerateJwt(user));
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> ActiveUser()
+        {
+            var user = await _appUserService.FindByNameAsync(User.Identity.Name);
+            return Ok(new AppUserDto { Name = user.Name, Surname = user.Surname });
         }
     }
 }
