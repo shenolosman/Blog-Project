@@ -1,5 +1,6 @@
 ﻿using BlogProject.Business.Concrete;
 using BlogProject.Business.Interfaces;
+using BlogProject.Business.Tools.JwtTool;
 using BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories;
 using BlogProject.DataAccess.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ namespace BlogProject.Business.Containers.MicrosoftIoC
 
             services.AddScoped<ICommentService, CommentManager>();
             services.AddScoped<ICommentDal, EfCommentRepository>();
+
+            services.AddScoped<IJwtService, JwtManager>();
         }
     }
 }

@@ -4,6 +4,7 @@ using BlogProject.DTO.DTOs.Blog;
 using BlogProject.Entities.Concrete;
 using BlogProject.WebApi.Enums;
 using BlogProject.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProject.WebApi.Controllers
@@ -33,6 +34,7 @@ namespace BlogProject.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] BlogAddModel model)
         {
             var uploadModel = await UploadFileAsync(model.Image, "image/jpeg");
@@ -54,6 +56,7 @@ namespace BlogProject.WebApi.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromForm] BlogUpdateModel model)
         {
             var uploadModel = await UploadFileAsync(model.Image, "image/jpeg");
@@ -86,6 +89,7 @@ namespace BlogProject.WebApi.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             await _blogService.RemoveAsync(new Blog() { Id = id });
