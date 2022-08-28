@@ -2,6 +2,7 @@
 using BlogProject.Business.Interfaces;
 using BlogProject.DTO.DTOs.Category;
 using BlogProject.Entities.Concrete;
+using BlogProject.WebApi.CustomFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,7 @@ namespace BlogProject.WebApi.Controllers
         }
         [HttpPost]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> Create(CategoryAddDto model)
         {
             await _categoryService.AddAsync(_mapper.Map<Category>(model));
@@ -39,6 +41,7 @@ namespace BlogProject.WebApi.Controllers
         }
         [HttpPut("{id}")]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> Update(int id, CategoryUpdateDto model)
         {
             if (id != model.Id)
@@ -50,6 +53,7 @@ namespace BlogProject.WebApi.Controllers
         }
         [HttpDelete("{id}")]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> Delete(int id)
         {
             await _categoryService.RemoveAsync(new Category() { Id = id });

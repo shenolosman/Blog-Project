@@ -1,6 +1,7 @@
 ﻿using BlogProject.Business.Interfaces;
 using BlogProject.Business.Tools.JwtTool;
 using BlogProject.DTO.DTOs.AppUser;
+using BlogProject.WebApi.CustomFilters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProject.WebApi.Controllers
@@ -18,6 +19,7 @@ namespace BlogProject.WebApi.Controllers
             _jwtService = jwtService;
         }
         [HttpPost]
+        [ValidModel]
         public async Task<IActionResult> SignIn(AppUserLoginDto appUserLoginDto)
         {
             var user = await _appUserService.CheckUserAsync(appUserLoginDto);

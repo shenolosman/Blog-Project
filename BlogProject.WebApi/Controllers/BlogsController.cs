@@ -3,6 +3,7 @@ using BlogProject.Business.Interfaces;
 using BlogProject.DTO.DTOs.Blog;
 using BlogProject.DTO.DTOs.CategoryBlog;
 using BlogProject.Entities.Concrete;
+using BlogProject.WebApi.CustomFilters;
 using BlogProject.WebApi.Enums;
 using BlogProject.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +37,7 @@ namespace BlogProject.WebApi.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> Create([FromForm] BlogAddModel model)
         {
             var uploadModel = await UploadFileAsync(model.Image, "image/jpeg");
@@ -58,6 +60,7 @@ namespace BlogProject.WebApi.Controllers
         }
         [HttpPut("{id}")]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> Update(int id, [FromForm] BlogUpdateModel model)
         {
             var uploadModel = await UploadFileAsync(model.Image, "image/jpeg");
@@ -91,6 +94,7 @@ namespace BlogProject.WebApi.Controllers
         }
         [HttpDelete("{id}")]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> Delete(int id)
         {
             await _blogService.RemoveAsync(new Blog() { Id = id });
@@ -99,6 +103,7 @@ namespace BlogProject.WebApi.Controllers
 
         [HttpPost("[action]")]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> AddToCategory(CategoryBlogDto categoryBlogDto)
         {
             await _blogService.AddToCategoryAsync(categoryBlogDto);
@@ -106,6 +111,7 @@ namespace BlogProject.WebApi.Controllers
         }
         [HttpDelete("[action]")]
         [Authorize]
+        [ValidModel]
         public async Task<IActionResult> RemoveCategory(CategoryBlogDto categoryBlogDto)
         {
             await _blogService.RemoveFromCategoryAsync(categoryBlogDto);
