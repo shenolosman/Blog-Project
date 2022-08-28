@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogProject.Business.Interfaces;
 using BlogProject.DTO.DTOs.Blog;
+using BlogProject.DTO.DTOs.CategoryBlog;
 using BlogProject.Entities.Concrete;
 using BlogProject.WebApi.Enums;
 using BlogProject.WebApi.Models;
@@ -95,5 +96,21 @@ namespace BlogProject.WebApi.Controllers
             await _blogService.RemoveAsync(new Blog() { Id = id });
             return NoContent();
         }
+
+        [HttpPost("[action]")]
+        [Authorize]
+        public async Task<IActionResult> AddToCategory(CategoryBlogDto categoryBlogDto)
+        {
+            await _blogService.AddToCategoryAsync(categoryBlogDto);
+            return Created("", categoryBlogDto);
+        }
+        [HttpDelete("[action]")]
+        [Authorize]
+        public async Task<IActionResult> RemoveCategory(CategoryBlogDto categoryBlogDto)
+        {
+            await _blogService.RemoveFromCategoryAsync(categoryBlogDto);
+            return NoContent();
+        }
+
     }
 }
