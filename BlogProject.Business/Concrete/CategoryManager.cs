@@ -19,5 +19,10 @@ namespace BlogProject.Business.Concrete
         {
             return await _genericDal.GelAllAsync(x => x.Id);
         }
+
+        public async Task<List<Category>> GetAllWithCategoryBlogsAsync()
+        {
+            return await _categoryDal.GetAllWithCategoryBlogsAsync();
+        }
     }
 }

@@ -55,5 +55,24 @@ namespace BlogProject.WebApi.Controllers
             await _categoryService.RemoveAsync(new Category() { Id = id });
             return NoContent();
         }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetWithBlogsCount()
+        {
+            var categories = await _categoryService.GetAllWithCategoryBlogsAsync();
+            var listCategory = new List<CategoryWithBlogsCountDto>();
+            foreach (var category in categories)
+            {
+                var dto = new CategoryWithBlogsCountDto
+                {
+                    Category = category,
+                    BlogsCount = category.CategoryBlogs.Count
+                };
+
+                listCategory.Add(dto);
+            }
+            return Ok(listCategory);
+        }
+
     }
 }
