@@ -34,5 +34,15 @@ namespace BlogProject.Web.ApiServices.Concrete
 
             return null;
         }
+
+        public async Task<List<BlogListModel>> GetAllByCategoryId(int id)
+        {
+            var msg = await _httpClient.GetAsync($"api/Blogs/GetAllByCategoryId/{id}");
+            if (msg.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<List<BlogListModel>>(await msg.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
     }
 }

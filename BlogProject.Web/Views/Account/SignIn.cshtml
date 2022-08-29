@@ -1,0 +1,44 @@
+﻿@model AppUserLoginModel
+@{
+    ViewData["Title"] = "SignIn";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Sign in</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/templates/blog-template/startbootstrap-blog-home-gh-pages/assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BlogProject.Web.styles.css" asp-append-version="true" />
+    <link href="/templates/blog-template/startbootstrap-blog-home-gh-pages/css/styles.css" rel="stylesheet" />
+
+</head>
+<body>
+    <form asp-action="SignIn" class="w-50 mt-5 p-3 mx-auto shadow" method="post">
+
+        <div class="form-group">
+            <h1>Sign in</h1>
+        </div>
+        <div class="form-group">
+            <label>User name: </label>
+            <input class="form-control" asp-for="Username" />
+        </div>
+        <div class="form-group">
+            <label>Password: </label>
+            <input class="form-control" asp-for="Password" />
+        </div>
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-info ">Sign in</button> | <a asp-action="Register" asp-controller="Account">Register</a>
+        </div>
+        
+    </form>
+
+</body>
+</html>

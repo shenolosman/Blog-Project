@@ -8,6 +8,10 @@
 }
 else
 {
+    @if (ViewBag.ActiveCategory != null)
+    {
+        @await Component.InvokeAsync("GetCategoryName",new {@categoryId=(int)ViewBag.ActiveCategory})
+    }
     @foreach (var blog in Model)
     {
         <div class="card mb-4">

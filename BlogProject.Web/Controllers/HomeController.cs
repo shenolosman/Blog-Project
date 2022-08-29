@@ -7,17 +7,19 @@ namespace BlogProject.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IBlogApiService _blogApiService;
-
-        public HomeController(ILogger<HomeController> logger, IBlogApiService blogApiService)
+        public HomeController(IBlogApiService blogApiService)
         {
-            _logger = logger;
             _blogApiService = blogApiService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId)
         {
+            if (categoryId.HasValue)
+            {
+                ViewBag.ActiveCategory = categoryId;
+                return View(await _blogApiService.GetAllByCategoryId((int)categoryId));
+            }
             return View(await _blogApiService.GetAllAsync());
         }
 
