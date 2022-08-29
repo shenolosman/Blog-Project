@@ -2,21 +2,27 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@if(Model==null){
-<p>Still not yet blog entry.</p>
-}else{
-@foreach (var blog in Model)
+@if (Model == null)
 {
-    <div class="card mb-4">
-        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
-        <div class="card-body">
-            <div class="small text-muted">@blog.Title</div>
-            <h2 class="card-title">@blog.ShortDescription</h2>
-            <a class="btn btn-primary" asp-action="BlogDetail" asp-controller="Home" asp-route-id="@blog.Id">Read more →</a>
-        </div>
-        <div class="card-footer text-muted">Posted on @blog.PostedTime.ToLongDateString()</div>
-    </div>
+    <p>Still not yet blog entry.</p>
 }
+else
+{
+    @foreach (var blog in Model)
+    {
+        <div class="card mb-4">
+            <a href="#!">
+                @*<img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." />*@
+                <getblogimage id="@blog.Id"></getblogimage>
+            </a>
+            <div class="card-body">
+                <div class="small text-muted">@blog.Title</div>
+                <h2 class="card-title">@blog.ShortDescription</h2>
+                <a class="btn btn-primary" asp-action="BlogDetail" asp-controller="Home" asp-route-id="@blog.Id">Read more →</a>
+            </div>
+            <div class="card-footer text-muted">Posted on @blog.PostedTime.ToLongDateString()</div>
+        </div>
+    }
 }
 
 

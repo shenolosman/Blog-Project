@@ -4,12 +4,13 @@ using BlogProject.Web.ApiServices.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClient<IBlogApiService, BlogApiManager>();
 builder.Services.AddHttpClient<ICategoryService, CategoryManager>();
+builder.Services.AddHttpClient<IImageApiService, ImageApiManager>();
+
+builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
