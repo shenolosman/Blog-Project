@@ -30,6 +30,7 @@ namespace BlogProject.WebApi.Controllers
             return Ok(_mapper.Map<List<BlogListDto>>(await _blogService.GelAllSortedByPostedTimeAsync()));
         }
         [HttpGet("{id}")]
+        [ServiceFilter(typeof(ValidId<Blog>))]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(_mapper.Map<BlogListDto>(await _blogService.FindByIdAsync(id)));
@@ -61,8 +62,10 @@ namespace BlogProject.WebApi.Controllers
         [HttpPut("{id}")]
         [Authorize]
         [ValidModel]
+        [ServiceFilter(typeof(ValidId<Blog>))]
         public async Task<IActionResult> Update(int id, [FromForm] BlogUpdateModel model)
         {
+            if (id != model.Id) return BadRequest("Not valid id");
             var uploadModel = await UploadFileAsync(model.Image, "image/jpeg");
 
             if (uploadModel.UploadState == UploadState.Success)
@@ -95,6 +98,7 @@ namespace BlogProject.WebApi.Controllers
         [HttpDelete("{id}")]
         [Authorize]
         [ValidModel]
+        [ServiceFilter(typeof(ValidId<Blog>))]
         public async Task<IActionResult> Delete(int id)
         {
             await _blogService.RemoveAsync(new Blog() { Id = id });

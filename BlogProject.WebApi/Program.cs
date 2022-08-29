@@ -1,5 +1,6 @@
 using BlogProject.Business.Containers.MicrosoftIoC;
 using BlogProject.Business.StringInfos;
+using BlogProject.WebApi.CustomFilters;
 using BlogProject.WebApi.Mapping.AutoMapperProfile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -17,6 +18,7 @@ builder.Services.AddAutoMapper(typeof(MapProfile));  //typeof(Program).Assembly
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped(typeof(ValidId<>));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
     opt.RequireHttpsMetadata = false;
