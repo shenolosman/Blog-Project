@@ -47,5 +47,10 @@ namespace BlogProject.Business.Concrete
             }
 
         }
+
+        public async Task<List<Blog>> GetAllByCategoryIdAsync(int categoryId)
+        {
+            return await _blogDal.GetAllByCategoryIdAsync(categoryId);
+        }
     }
 }

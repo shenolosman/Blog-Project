@@ -8,6 +8,6 @@ namespace BlogProject.Business.Interfaces
         Task<List<Blog>> GelAllSortedByPostedTimeAsync();
         Task AddToCategoryAsync(CategoryBlogDto categoryBlogDto);
         Task RemoveFromCategoryAsync(CategoryBlogDto categoryBlogDto);
-
+        Task<List<Blog>> GetAllByCategoryIdAsync(int categoryId);
     }
 }
