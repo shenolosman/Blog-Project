@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProject.Web.ViewComponents
 {
-    public class CategoryList :ViewComponent
+    public class CategoryList : ViewComponent
     {
         private readonly ICategoryService _categoryService;
 
@@ -13,7 +13,7 @@ namespace BlogProject.Web.ViewComponents
         }
         public IViewComponentResult Invoke()
         {
-            return View(_categoryService.GetAllAsync().Result);
+            return View(_categoryService.GetAllWithBlogsCount().Result);
         }
     }
 }

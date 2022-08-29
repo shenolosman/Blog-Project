@@ -1,6 +1,6 @@
-﻿namespace BlogProject.DTO.DTOs.Category
+﻿namespace BlogProject.Web.Models
 {
-    public class CategoryWithBlogsCountDto
+    public class CategoryWithBlogsCountModel
     {
         public int BlogsCount { get; set; }
         public int CategoryId { get; set; }

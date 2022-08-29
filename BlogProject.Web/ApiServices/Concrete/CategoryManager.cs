@@ -23,5 +23,17 @@ namespace BlogProject.Web.ApiServices.Concrete
 
             return null;
         }
+
+        public async Task<List<CategoryWithBlogsCountModel>> GetAllWithBlogsCount()
+        {
+            var msg = await _httpClient.GetAsync("GetWithBlogsCount");
+            if (msg.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<List<CategoryWithBlogsCountModel>>(
+                    await msg.Content.ReadAsStringAsync());
+            }
+
+            return null;
+        }
     }
 }

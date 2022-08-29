@@ -5,5 +5,6 @@ namespace BlogProject.Web.ApiServices.Interfaces
     public interface ICategoryService
     {
         Task<List<CategoryListModel>> GetAllAsync();
+        Task<List<CategoryWithBlogsCountModel>> GetAllWithBlogsCount();
     }
 }
