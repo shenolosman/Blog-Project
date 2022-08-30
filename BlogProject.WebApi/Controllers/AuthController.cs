@@ -18,7 +18,7 @@ namespace BlogProject.WebApi.Controllers
             _appUserService = appUserService;
             _jwtService = jwtService;
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         [ValidModel]
         public async Task<IActionResult> SignIn(AppUserLoginDto appUserLoginDto)
         {
