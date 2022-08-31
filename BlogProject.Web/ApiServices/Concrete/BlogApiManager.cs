@@ -18,7 +18,7 @@ namespace BlogProject.Web.ApiServices.Concrete
             var responseMsg = await _httpClient.GetAsync("");
             if (responseMsg.IsSuccessStatusCode)
             {
-                JsonConvert.DeserializeObject<List<BlogListModel>>(await responseMsg.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<List<BlogListModel>>(await responseMsg.Content.ReadAsStringAsync());
             }
 
             return null;
@@ -29,15 +29,15 @@ namespace BlogProject.Web.ApiServices.Concrete
             var responseMsg = await _httpClient.GetAsync($"{id}");
             if (responseMsg.IsSuccessStatusCode)
             {
-                JsonConvert.DeserializeObject<BlogListModel>(await responseMsg.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<BlogListModel>(await responseMsg.Content.ReadAsStringAsync());
             }
 
             return null;
         }
 
-        public async Task<List<BlogListModel>> GetAllByCategoryId(int id)
+        public async Task<List<BlogListModel>> GetAllByCategoryIdAsync(int id)
         {
-            var msg = await _httpClient.GetAsync($"api/Blogs/GetAllByCategoryId/{id}");
+            var msg = await _httpClient.GetAsync($"GetAllByCategoryId/{id}");
             if (msg.IsSuccessStatusCode)
             {
                 return JsonConvert.DeserializeObject<List<BlogListModel>>(await msg.Content.ReadAsStringAsync());

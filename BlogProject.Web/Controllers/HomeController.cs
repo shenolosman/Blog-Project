@@ -18,7 +18,7 @@ namespace BlogProject.Web.Controllers
             if (categoryId.HasValue)
             {
                 ViewBag.ActiveCategory = categoryId;
-                return View(await _blogApiService.GetAllByCategoryId((int)categoryId));
+                return View(await _blogApiService.GetAllByCategoryIdAsync((int)categoryId));
             }
             return View(await _blogApiService.GetAllAsync());
         }
@@ -27,6 +27,15 @@ namespace BlogProject.Web.Controllers
         {
             return View(await _blogApiService.GetByIdAsync(id));
         }
+
+
+
+
+
+
+
+
+
         public IActionResult Privacy()
         {
             return View();

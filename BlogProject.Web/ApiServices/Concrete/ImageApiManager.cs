@@ -9,7 +9,7 @@ namespace BlogProject.Web.ApiServices.Concrete
         public ImageApiManager(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5000/api/Images/");
+            _httpClient.BaseAddress = new Uri("http://localhost:5000/api/images/");
         }
 
         public async Task<string> GetBlogImageByIdAsync(int id)
@@ -20,7 +20,6 @@ namespace BlogProject.Web.ApiServices.Concrete
                 var bytes = await message.Content.ReadAsByteArrayAsync();
                 return $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
             }
-
             return null;
         }
     }

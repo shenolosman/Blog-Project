@@ -7,7 +7,6 @@ namespace BlogProject.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAuthService _authService;
-
         public AccountController(IAuthService authService)
         {
             _authService = authService;
@@ -21,7 +20,7 @@ namespace BlogProject.Web.Controllers
         {
             if (await _authService.SignIn(model))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { @area = "Admin" });
             }
             return View();
         }
