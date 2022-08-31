@@ -19,14 +19,15 @@ namespace BlogProject.Web.ApiServices.Concrete
         public async Task<bool> SignIn(AppUserLoginModel model)
         {
             var jsonData = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await _httpClient.PostAsync("SignIn", content);
 
-            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-            var msg = await _httpClient.PostAsync("SignIn", stringContent);
-            if (msg.IsSuccessStatusCode)
+            if (responseMessage.IsSuccessStatusCode)
             {
-                var accessToken = JsonConvert.DeserializeObject<AccessToken>(await msg.Content.ReadAsStringAsync());
+                var accessToken = JsonConvert.DeserializeObject<AccessToken>(await responseMessage.Content.ReadAsStringAsync());
+
                 _contextAccessor.HttpContext.Session.SetString("token", accessToken.Token);
+
                 return true;
             }
             return false;

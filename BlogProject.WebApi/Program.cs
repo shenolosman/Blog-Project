@@ -1,5 +1,7 @@
 using BlogProject.Business.Containers.MicrosoftIoC;
+using BlogProject.Business.Interfaces;
 using BlogProject.Business.StringInfos;
+using BlogProject.WebApi;
 using BlogProject.WebApi.CustomFilters;
 using BlogProject.WebApi.Mapping.AutoMapperProfile;
 using FluentValidation.AspNetCore;
@@ -53,4 +55,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var appUserService = scope.ServiceProvider.GetRequiredService<IAppUserService>();
+
+    JwtIdentityInitializer.Seed(appUserService).Wait();
+}
 app.Run();
