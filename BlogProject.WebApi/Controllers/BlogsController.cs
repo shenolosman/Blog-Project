@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogProject.Business.Interfaces;
 using BlogProject.DTO.DTOs.Blog;
+using BlogProject.DTO.DTOs.Category;
 using BlogProject.DTO.DTOs.CategoryBlog;
 using BlogProject.Entities.Concrete;
 using BlogProject.WebApi.CustomFilters;
@@ -130,6 +131,19 @@ namespace BlogProject.WebApi.Controllers
         {
             return Ok(await _blogService.GetAllByCategoryIdAsync(id));
 
+        }
+
+        [HttpGet("{id}/[action]")]
+        [ServiceFilter(typeof(ValidId<Blog>))]
+        public async Task<IActionResult> GetCategories(int id)
+        {
+            return Ok(_mapper.Map<List<CategoryListDto>>(await _blogService.GetCategoriesAsync(id)));
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetLastFive()
+        {
+            return Ok(_mapper.Map<List<BlogListDto>>(await _blogService.GetLastFiveAsync()));
         }
     }
 }

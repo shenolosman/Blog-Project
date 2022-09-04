@@ -43,8 +43,6 @@ namespace BlogProject.Business.Concrete
             {
                 await _categoryBlogService.RemoveAsync(deletedCategoryBlog);
             }
-
-
         }
 
         public async Task<List<Blog>> GetAllByCategoryIdAsync(int categoryId)
@@ -52,5 +50,14 @@ namespace BlogProject.Business.Concrete
             return await _blogDal.GetAllByCategoryIdAsync(categoryId);
         }
 
+        public async Task<List<Category>> GetCategoriesAsync(int blogId)
+        {
+            return await _blogDal.GetCategoriesAsync(blogId);
+        }
+
+        public async Task<List<Blog>> GetLastFiveAsync()
+        {
+            return await _blogDal.GetLastFiveAsync();
+        }
     }
 }

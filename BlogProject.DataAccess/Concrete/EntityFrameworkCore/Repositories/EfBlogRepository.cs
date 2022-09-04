@@ -29,5 +29,27 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories
             });
             return await blogs.ToListAsync();
         }
+
+        public async Task<List<Category>> GetCategoriesAsync(int blogId)
+        {
+            await using var context = new DatabaseContext();
+            return await context.Categories.Join(context.CategoryBlogs, c => c.Id, cb => cb.CategoryId, (category, categoryBlog) =>
+                   new
+                   {
+                       category = category,
+                       categoryBlog = categoryBlog
+
+                   }).Where(x => x.categoryBlog.BlogId == blogId).Select(x => new Category
+                   {
+                       Id = x.category.Id,
+                       Name = x.category.Name
+                   }).ToListAsync();
+        }
+
+        public async Task<List<Blog>> GetLastFiveAsync()
+        {
+            await using var context = new DatabaseContext();
+            return await context.Blogs.OrderByDescending(x => x.PostedTime).Take(5).ToListAsync();
+        }
     }
 }
