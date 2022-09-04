@@ -22,10 +22,11 @@ namespace BlogProject.Web.Filters
                 using var httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                var msg = httpClient.GetAsync("http://localhost:5000/api/Auth/ActiveUser").Result;
-                if (msg.IsSuccessStatusCode)
+                var responseMessage = httpClient.GetAsync("http://localhost:52395/api/Auth/ActiveUser").Result;
+
+                if (responseMessage.IsSuccessStatusCode)
                 {
-                    var activeUser = JsonConvert.DeserializeObject<AppUserViewModel>(msg.Content.ReadAsStringAsync().Result);
+                    var activeUser = JsonConvert.DeserializeObject<AppUserViewModel>(responseMessage.Content.ReadAsStringAsync().Result);
 
                     context.HttpContext.Session.SetObject("activeUser", activeUser);
                 }

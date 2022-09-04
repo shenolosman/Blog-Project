@@ -17,26 +17,27 @@ namespace BlogProject.Web.Areas.Admin.Controllers
         [JwtAuthorize]
         public async Task<IActionResult> Index()
         {
+            TempData["active"] = "blog";
             return View(await _blogApiService.GetAllAsync());
         }
 
         public IActionResult Create()
         {
+            TempData["active"] = "blog";
             return View(new BlogAddModel());
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(BlogAddModel model)
         {
-            if (ModelState.IsValid)
-            {
-                await _blogApiService.AddAsync(model);
-                return RedirectToAction("Index");
-            }
-            return View(model);
+            TempData["active"] = "blog";
+            if (!ModelState.IsValid) return View(model);
+            await _blogApiService.AddAsync(model);
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> Update(int id)
         {
+            TempData["active"] = "blog";
             var blogList = await _blogApiService.GetByIdAsync(id);
             return View(new BlogUpdateModel
             {
@@ -49,6 +50,7 @@ namespace BlogProject.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(BlogUpdateModel model)
         {
+            TempData["active"] = "blog";
             if (!ModelState.IsValid) return View(model);
             await _blogApiService.UpdateAsync(model);
             return RedirectToAction("Index");
@@ -56,6 +58,7 @@ namespace BlogProject.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            TempData["active"] = "blog";
             await _blogApiService.DeleteAsync(id);
             return RedirectToAction("Index");
         }

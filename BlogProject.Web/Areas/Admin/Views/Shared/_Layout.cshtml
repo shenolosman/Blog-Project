@@ -1,15 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var active= TempData["active"].ToString();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
     <title>Admin Page</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="templates/admin-template/startbootstrap-simple-sidebar-gh-pages/assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/templates/admin-template/startbootstrap-simple-sidebar-gh-pages/assets/favicon.ico" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="templates/admin-template/startbootstrap-simple-sidebar-gh-pages/css/styles.css" rel="stylesheet" />
+    <link href="/templates/admin-template/startbootstrap-simple-sidebar-gh-pages/css/styles.css" rel="stylesheet" />
     @RenderSectionAsync("Css",false)
 </head>
 <body>
@@ -18,12 +19,9 @@
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">Blog Website</div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Blog">Blog</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Category">Category</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 @(active=="blog"?"active":"")"  asp-action="Index" asp-controller="Blog" asp-area="Admin">Blog</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 @(active=="category"?"active":"")" asp-action="Index" asp-controller="Category" asp-area="Admin">Category</a>
+                <a asp-action="SignOut" asp-controller="Category" class="list-group-item list-group-item-action ">Sign Out</a>
             </div>
         </div>
         <!-- Page content wrapper-->
@@ -61,5 +59,12 @@
     <!-- Core theme JS-->
 <script src="/templates/admin-template/startbootstrap-simple-sidebar-gh-pages/js/scripts.js"></script>
 @RenderSectionAsync("Js",false)
+@*<script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>*@
+
 </body>
 </html>

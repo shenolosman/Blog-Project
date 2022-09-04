@@ -15,7 +15,7 @@ namespace BlogProject.Web.ApiServices.Concrete
         {
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
-            _httpClient.BaseAddress = new Uri("http://localhost:5000/api/Category/");
+            _httpClient.BaseAddress = new Uri("http://localhost:52395/api/Category/");
         }
         public async Task<List<CategoryListModel>> GetAllAsync()
         {

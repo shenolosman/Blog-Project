@@ -6,7 +6,7 @@
 }
 @section Css
     {
-    <link rel="stylesheet" href="lib/Trumbowyg-main/dist/ui/trumbowyg.min.css" />
+    <link rel="stylesheet" href="/lib/Trumbowyg-main/dist/ui/trumbowyg.min.css" />
 }
     <h1>Update Blog</h1>
 
@@ -28,7 +28,7 @@
                 </div>
                 <div class="mb-3 row">
                     <label asp-for="Description" class="form-label"></label>
-                    <input asp-for="Description" class="form-control"/>
+                    <input asp-for="Description" class="form-control" id="Description" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="mb-3 row">
@@ -37,7 +37,7 @@
                     <span asp-validation-for="AppUserId" class="text-danger"></span>
                 </div>
                 <div class="mb-3 row">
-                    <input type="submit" value="Create" class="btn btn-primary"/>
+                    <input type="submit" value="Update" class="btn btn-primary"/>
                 </div>
             </form>
         </div>
@@ -49,7 +49,9 @@
 
     @section Js
     {
-    <script src="lib/Trumbowyg-main/dist/trumbowyg.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    <script src="/lib/Trumbowyg-main/dist/trumbowyg.min.js"></script>
     <script>
         $("#Description").trumbowyg();
 

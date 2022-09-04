@@ -3,6 +3,7 @@ using BlogProject.Web.Extensions;
 using BlogProject.Web.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace BlogProject.Web.ApiServices.Concrete
 {
@@ -15,7 +16,7 @@ namespace BlogProject.Web.ApiServices.Concrete
         {
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
-            _httpClient.BaseAddress = new Uri("http://localhost:5000/api/Blogs/"); // from api applicationUrl in launchSettings
+            _httpClient.BaseAddress = new Uri("http://localhost:52395/api/Blogs/"); // from api applicationUrl in launchSettings
         }
         public async Task<List<BlogListModel>> GetAllAsync()
         {
@@ -54,24 +55,25 @@ namespace BlogProject.Web.ApiServices.Concrete
             MultipartFormDataContent formData = new MultipartFormDataContent();
             if (model.Image != null)
             {
-                var bytes = await System.IO.File.ReadAllBytesAsync(model.Image.FileName);
-                ByteArrayContent byteArrayContent = new ByteArrayContent(bytes);
+                var bytes = await File.ReadAllBytesAsync(model.Image.FileName, CancellationToken.None);
+                ByteArrayContent byteContent = new ByteArrayContent(bytes);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue(model.Image.ContentType);
 
-                byteArrayContent.Headers.ContentType = new MediaTypeHeaderValue(model.Image.ContentType);
-
-                formData.Add(byteArrayContent, nameof(BlogAddModel.Image), model.Image.FileName);
+                formData.Add(byteContent, nameof(BlogAddModel.Image), model.Image.FileName);
             }
 
             var user = _httpContextAccessor.HttpContext.Session.GetObject<AppUserViewModel>("activeUser");
             model.AppUserId = user.Id;
+
             formData.Add(new StringContent(model.AppUserId.ToString()), nameof(BlogAddModel.AppUserId));
 
             formData.Add(new StringContent(model.ShortDescription), nameof(BlogAddModel.ShortDescription));
+
             formData.Add(new StringContent(model.Description), nameof(BlogAddModel.Description));
+
             formData.Add(new StringContent(model.Title), nameof(BlogAddModel.Title));
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                _httpContextAccessor.HttpContext.Session.GetString("token"));
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _httpContextAccessor.HttpContext.Session.GetString("token"));
 
             await _httpClient.PostAsync("", formData);
         }
@@ -81,25 +83,25 @@ namespace BlogProject.Web.ApiServices.Concrete
             if (model.Image != null)
             {
                 var bytes = await System.IO.File.ReadAllBytesAsync(model.Image.FileName);
-                ByteArrayContent byteArrayContent = new ByteArrayContent(bytes);
+                ByteArrayContent byteContent = new ByteArrayContent(bytes);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue(model.Image.ContentType);
 
-                byteArrayContent.Headers.ContentType = new MediaTypeHeaderValue(model.Image.ContentType);
-
-                formData.Add(byteArrayContent, nameof(BlogUpdateModel.Image), model.Image.FileName);
+                formData.Add(byteContent, nameof(BlogAddModel.Image), model.Image.FileName);
             }
 
             var user = _httpContextAccessor.HttpContext.Session.GetObject<AppUserViewModel>("activeUser");
             model.AppUserId = user.Id;
-
-            formData.Add(new StringContent(model.AppUserId.ToString()), nameof(BlogUpdateModel.AppUserId));
-
             formData.Add(new StringContent(model.Id.ToString()), nameof(BlogUpdateModel.Id));
-            formData.Add(new StringContent(model.ShortDescription), nameof(BlogUpdateModel.ShortDescription));
-            formData.Add(new StringContent(model.Description), nameof(BlogUpdateModel.Description));
-            formData.Add(new StringContent(model.Title), nameof(BlogUpdateModel.Title));
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                _httpContextAccessor.HttpContext.Session.GetString("token"));
+            formData.Add(new StringContent(model.AppUserId.ToString()), nameof(BlogAddModel.AppUserId));
+
+            formData.Add(new StringContent(model.ShortDescription), nameof(BlogAddModel.ShortDescription));
+
+            formData.Add(new StringContent(model.Description), nameof(BlogAddModel.Description));
+
+            formData.Add(new StringContent(model.Title), nameof(BlogAddModel.Title));
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _httpContextAccessor.HttpContext.Session.GetString("token"));
 
             await _httpClient.PutAsync($"{model.Id}", formData);
         }

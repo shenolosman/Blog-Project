@@ -11,27 +11,25 @@ namespace BlogProject.Business.Tools.JwtTool
     {
         public JwtToken GenerateJwt(AppUser appUser)
         {
-            SymmetricSecurityKey ssk = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtInfo.SecurityKey));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtInfo.SecurityKey));
 
-            SigningCredentials sc = new SigningCredentials(ssk, SecurityAlgorithms.HmacSha256);
+            SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            JwtSecurityToken jst = new JwtSecurityToken(issuer: JwtInfo.Issuer, audience: JwtInfo.Audience, claims: SetClaims(appUser), notBefore: DateTime.Now, expires: DateTime.Now.AddMinutes(JwtInfo.Expires), signingCredentials: sc);
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(issuer: JwtInfo.Issuer, audience: JwtInfo.Audience, claims: SetClaims(appUser), notBefore: DateTime.Now, expires: DateTime.Now.AddMinutes(JwtInfo.Expires), signingCredentials: signingCredentials);
 
-            JwtToken token = new JwtToken();
 
+            JwtToken jwtToken = new JwtToken();
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-            token.Token = handler.WriteToken(jst);
-
-            return token;
+            jwtToken.Token = handler.WriteToken(jwtSecurityToken);
+            return jwtToken;
         }
 
-        private List<Claim> SetClaims(AppUser appuser)
+        private List<Claim> SetClaims(AppUser appUser)
         {
             List<Claim> claims = new List<Claim>();
 
-            claims.Add(new Claim(ClaimTypes.Name, appuser.Username));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, appuser.Id.ToString()));
-
+            claims.Add(new Claim(ClaimTypes.Name, appUser.Username));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, appUser.Id.ToString()));
             return claims;
         }
     }

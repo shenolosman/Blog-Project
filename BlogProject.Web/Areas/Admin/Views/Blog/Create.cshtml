@@ -1,54 +1,55 @@
 ﻿@model BlogAddModel
 
-@{
-    ViewData["Title"] = "Create";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-}
 @section Css
-{
-    <link rel="stylesheet" href="lib/Trumbowyg-main/dist/ui/trumbowyg.min.css"/>
+    {
+    <link rel="stylesheet" href="/lib/trumbowyg/dist/ui/trumbowyg.css" />
+    <link rel="stylesheet" href="/lib/trumbowyg/dist/ui/trumbowyg.min.css.map" />
+    <link rel="stylesheet" href="/lib/trumbowyg/dist/ui/trumbowyg.min.css" />
 }
-<h1>Create Blog</h1>
+    <h1>Create Blog</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
             <form asp-action="Create" enctype="multipart/form-data" class="g-3" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="mb-3 row">
-                <label asp-for="Title" class="form-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="mb-3 row">
-                <label asp-for="ShortDescription" class="form-label"></label>
-                <input asp-for="ShortDescription" class="form-control" />
-                <span asp-validation-for="ShortDescription" class="text-danger"></span>
-            </div>
-            <div class="mb-3 row">
-                <label asp-for="Description" class="form-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="mb-3 row">
-                <label asp-for="Image" class="form-label">File input</label>
-                <input asp-for="Image" class="form-control" type="file" id="Image" />
-                <span asp-validation-for="AppUserId" class="text-danger"></span>
-            </div>
-            <div class="mb-3 row">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-3 row">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="ShortDescription" class="form-label"></label>
+                    <input asp-for="ShortDescription" class="form-control" />
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="Description" class="form-label"></label>
+                    <input asp-for="Description" class="form-control" id="Description" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="Image" class="form-label">Image file</label>
+                    <input asp-for="Image" class="form-control" type="file" />
+                    <span asp-validation-for="AppUserId" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-@section Js
-{
-    <script src="lib/Trumbowyg-main/dist/trumbowyg.min.js"></script>
+    @section Js
+    {
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    <script src="/lib/trumbowyg/dist/trumbowyg.min.js"></script>
+    <script src="/lib/trumbowyg/dist/plugins/upload/trumbowyg.upload.min.js"></script>
     <script>
         $("#Description").trumbowyg();
 

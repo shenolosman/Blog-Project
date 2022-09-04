@@ -4,12 +4,12 @@ namespace BlogProject.Business.Interfaces
 {
     public interface IGenericService<TEntity> where TEntity : class, ITable, new()
     {
-        Task<List<TEntity>> GelAllAsync();
-        //Task<List<TEntity>> GelAllAsync(Expression<Func<TEntity, bool>> filter);
+        Task<List<TEntity>> GetAllAsync();
+        //Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter);
         //Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter);
-        //Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector);
+        //Task<List<TEntity>> GetAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector);
 
-        //Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter,
+        //Task<List<TEntity>> GetAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter,
         //    Expression<Func<TEntity, Tkey>> keySelector);
         Task<TEntity> FindByIdAsync(int id);
         Task AddAsync(TEntity entity);

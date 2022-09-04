@@ -17,7 +17,7 @@ namespace BlogProject.Business.Concrete
 
         public async Task<List<Category>> GetAllSortedByIdAsync()
         {
-            return await _genericDal.GelAllAsync(x => x.Id);
+            return await _genericDal.GetAllAsync(x => x.Id);
         }
 
         public async Task<List<Category>> GetAllWithCategoryBlogsAsync()

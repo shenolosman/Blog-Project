@@ -8,13 +8,13 @@ namespace BlogProject.Web.ApiServices.Concrete
     public class AuthManager : IAuthService
     {
         private readonly HttpClient _httpClient;
-        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthManager(HttpClient httpClient, IHttpContextAccessor contextAccessor)
+        public AuthManager(IHttpContextAccessor httpContextAccessor, HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _contextAccessor = contextAccessor;
-            _httpClient.BaseAddress = new Uri("http://localhost:5000/api/Auth/");
+            _httpContextAccessor = httpContextAccessor;
+            _httpClient.BaseAddress = new Uri("http://localhost:52395/api/Auth/");
         }
         public async Task<bool> SignIn(AppUserLoginModel model)
         {
@@ -26,7 +26,7 @@ namespace BlogProject.Web.ApiServices.Concrete
             {
                 var accessToken = JsonConvert.DeserializeObject<AccessToken>(await responseMessage.Content.ReadAsStringAsync());
 
-                _contextAccessor.HttpContext.Session.SetString("token", accessToken.Token);
+                _httpContextAccessor.HttpContext.Session.SetString("token", accessToken.Token);
 
                 return true;
             }

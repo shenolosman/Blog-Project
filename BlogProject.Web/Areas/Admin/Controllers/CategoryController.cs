@@ -8,29 +8,28 @@ namespace BlogProject.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly HttpClient _httpClient;
         private readonly ICategoryService _categoryService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CategoryController(HttpClient httpClient, ICategoryService categoryService, IHttpContextAccessor httpContextAccessor)
+        public CategoryController(ICategoryService categoryService)
         {
-            _httpClient = httpClient;
             _categoryService = categoryService;
-            _httpContextAccessor = httpContextAccessor;
         }
         [JwtAuthorize]
         public async Task<IActionResult> Index()
         {
+            TempData["active"] = "category";
             return View(await _categoryService.GetAllAsync());
         }
 
         public IActionResult Create()
         {
+            TempData["active"] = "category";
             return View(new CategoryAddModel());
         }
         [HttpPost]
         public async Task<IActionResult> Create(CategoryAddModel model)
         {
+            TempData["active"] = "category";
             if (!ModelState.IsValid) return View(model);
             await _categoryService.AddAsync(model);
             return RedirectToAction("Index");
@@ -38,6 +37,7 @@ namespace BlogProject.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Update(int id)
         {
+            TempData["active"] = "category";
             var catList = await _categoryService.GetByIdAsync(id);
             return View(new CategoryUpdateModel
             {
@@ -48,6 +48,7 @@ namespace BlogProject.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(CategoryUpdateModel model)
         {
+            TempData["active"] = "category";
             if (!ModelState.IsValid) return View(model);
             await _categoryService.UpdateAsync(model);
             return RedirectToAction("Index");
@@ -55,8 +56,14 @@ namespace BlogProject.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            TempData["active"] = "category";
             await _categoryService.DeleteAsync(id);
             return RedirectToAction("Index");
+        }
+        public IActionResult SignOut()
+        {
+            HttpContext.Session.Remove("token");
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }

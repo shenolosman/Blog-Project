@@ -18,16 +18,15 @@ namespace BlogProject.Business.Concrete
             _categoryBlogService = categoryBlogService;
         }
 
-        public async Task<List<Blog>> GelAllSortedByPostedTimeAsync()
+        public async Task<List<Blog>> GetAllSortedByPostedTimeAsync()
         {
-            return await _genericDal.GelAllAsync(x => x.PostedTime);
+            return await _genericDal.GetAllAsync(I => I.PostedTime);
         }
 
         public async Task AddToCategoryAsync(CategoryBlogDto categoryBlogDto)
         {
-            var controlcat = await _categoryBlogService.GetAsync(x =>
-                x.CategoryId == categoryBlogDto.CategoryId && x.BlogId == categoryBlogDto.BlogId);
-            if (controlcat == null)
+            var control = await _categoryBlogService.GetAsync(I => I.CategoryId == categoryBlogDto.CategoryId && I.BlogId == categoryBlogDto.BlogId);
+            if (control == null)
             {
                 await _categoryBlogService.AddAsync(new CategoryBlog
                 {
@@ -35,16 +34,16 @@ namespace BlogProject.Business.Concrete
                     CategoryId = categoryBlogDto.CategoryId
                 });
             }
-        }
 
+        }
         public async Task RemoveFromCategoryAsync(CategoryBlogDto categoryBlogDto)
         {
-            var controlcat = await _categoryBlogService.GetAsync(x =>
-                 x.CategoryId == categoryBlogDto.CategoryId && x.BlogId == categoryBlogDto.BlogId);
-            if (controlcat != null)
+            var deletedCategoryBlog = await _categoryBlogService.GetAsync(I => I.CategoryId == categoryBlogDto.CategoryId && I.BlogId == categoryBlogDto.BlogId);
+            if (deletedCategoryBlog != null)
             {
-                await _categoryBlogService.RemoveAsync(controlcat);
+                await _categoryBlogService.RemoveAsync(deletedCategoryBlog);
             }
+
 
         }
 
@@ -52,5 +51,6 @@ namespace BlogProject.Business.Concrete
         {
             return await _blogDal.GetAllByCategoryIdAsync(categoryId);
         }
+
     }
 }

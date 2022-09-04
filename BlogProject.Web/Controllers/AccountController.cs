@@ -16,11 +16,12 @@ namespace BlogProject.Web.Controllers
             return View();
         }
         [HttpPost]
+
         public async Task<IActionResult> SignIn(AppUserLoginModel model)
         {
             if (await _authService.SignIn(model))
             {
-                return RedirectToAction("Index", "Home", new { @area = "Admin" });
+                return RedirectToAction("Index", "Blog", new { @area = "Admin" });
             }
 
             return View();

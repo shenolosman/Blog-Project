@@ -12,9 +12,9 @@ namespace BlogProject.Business.Concrete
         {
             _genericDal = genericDal;
         }
-        public async Task<List<TEntity>> GelAllAsync()
+        public async Task<List<TEntity>> GetAllAsync()
         {
-            return await _genericDal.GelAllAsync();
+            return await _genericDal.GetAllAsync();
         }
 
         public async Task<TEntity> FindByIdAsync(int id)
@@ -22,9 +22,9 @@ namespace BlogProject.Business.Concrete
             return await _genericDal.FinByIdAsync(id);
         }
 
-        //public async Task<List<TEntity>> GelAllAsync(Expression<Func<TEntity, bool>> filter)
+        //public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter)
         //{
-        //    return await _genericDal.GelAllAsync(filter);
+        //    return await _genericDal.GetAllAsync(filter);
         //}
 
         //public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
@@ -32,14 +32,14 @@ namespace BlogProject.Business.Concrete
         //    return await _genericDal.GetAsync(filter);
         //}
 
-        //public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
+        //public async Task<List<TEntity>> GetAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
         //{
-        //    return await _genericDal.GelAllAsync(keySelector);
+        //    return await _genericDal.GetAllAsync(keySelector);
         //}
 
-        //public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
+        //public async Task<List<TEntity>> GetAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
         //{
-        //    return await _genericDal.GelAllAsync(filter, keySelector);
+        //    return await _genericDal.GetAllAsync(filter, keySelector);
         //}
 
         public async Task AddAsync(TEntity entity)

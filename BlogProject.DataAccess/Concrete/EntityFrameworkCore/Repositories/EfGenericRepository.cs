@@ -8,19 +8,19 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfGenericRepository<TEntity> : IGenericDal<TEntity> where TEntity : class, ITable, new()
     {
-        public async Task<List<TEntity>> GelAllAsync()
+        public async Task<List<TEntity>> GetAllAsync()
         {
             await using var context = new DatabaseContext();
             return await context.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<List<TEntity>> GelAllAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter)
         {
             await using var context = new DatabaseContext();
             return await context.Set<TEntity>().Where(filter).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
+        public async Task<List<TEntity>> GetAllAsync<Tkey>(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, Tkey>> keySelector)
         {
             await using var context = new DatabaseContext();
             return await context.Set<TEntity>().Where(filter).OrderByDescending(keySelector).ToListAsync();
@@ -32,7 +32,7 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories
             return await context.FindAsync<TEntity>(id);
         }
 
-        public async Task<List<TEntity>> GelAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
+        public async Task<List<TEntity>> GetAllAsync<Tkey>(Expression<Func<TEntity, Tkey>> keySelector)
         {
             await using var context = new DatabaseContext();
             return await context.Set<TEntity>().OrderByDescending(keySelector).ToListAsync();

@@ -27,8 +27,9 @@ namespace BlogProject.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(_mapper.Map<List<BlogListDto>>(await _blogService.GelAllSortedByPostedTimeAsync()));
+            return Ok(_mapper.Map<List<BlogListDto>>(await _blogService.GetAllSortedByPostedTimeAsync()));
         }
+
         [HttpGet("{id}")]
         [ServiceFilter(typeof(ValidId<Blog>))]
         public async Task<IActionResult> GetById(int id)
@@ -39,53 +40,57 @@ namespace BlogProject.WebApi.Controllers
         [HttpPost]
         [Authorize]
         [ValidModel]
-        public async Task<IActionResult> Create([FromForm] BlogAddModel model)
+        public async Task<IActionResult> Create([FromForm] BlogAddModel blogAddModel)
         {
-            var uploadModel = await UploadFileAsync(model.Image, "image/jpeg");
-
+            var uploadModel = await UploadFileAsync(blogAddModel.Image, "image/jpeg");
             if (uploadModel.UploadState == UploadState.Success)
             {
-                model.ImagePath = uploadModel.NewName;
-                await _blogService.AddAsync(_mapper.Map<Blog>(model));
-                return Created("", model);
+                blogAddModel.ImagePath = uploadModel.NewName;
+                await _blogService.AddAsync(_mapper.Map<Blog>(blogAddModel));
+                return Created("", blogAddModel);
             }
             else if (uploadModel.UploadState == UploadState.NotExist)
             {
-                await _blogService.AddAsync(_mapper.Map<Blog>(model));
-                return Created("", model);
+                await _blogService.AddAsync(_mapper.Map<Blog>(blogAddModel));
+                return Created("", blogAddModel);
             }
             else
             {
                 return BadRequest(uploadModel.ErrorMessage);
             }
+
         }
+
         [HttpPut("{id}")]
         [Authorize]
         [ValidModel]
         [ServiceFilter(typeof(ValidId<Blog>))]
-        public async Task<IActionResult> Update(int id, [FromForm] BlogUpdateModel model)
+        public async Task<IActionResult> Update(int id, [FromForm] BlogUpdateModel blogUpdateModel)
         {
-            if (id != model.Id) return BadRequest("Not valid id");
-            var uploadModel = await UploadFileAsync(model.Image, "image/jpeg");
+            if (id != blogUpdateModel.Id)
+                return BadRequest("not valid id");
+
+            var uploadModel = await UploadFileAsync(blogUpdateModel.Image, "image/jpeg");
 
             if (uploadModel.UploadState == UploadState.Success)
             {
-                var updatedBlog = await _blogService.FindByIdAsync(model.Id);
-                updatedBlog.ShortDescription = model.ImagePath;
-                updatedBlog.Title = model.Title;
-                updatedBlog.Description = model.Description;
+                var updatedBlog = await _blogService.FindByIdAsync(blogUpdateModel.Id);
 
+                updatedBlog.ShortDescription = blogUpdateModel.ShortDescription;
+                updatedBlog.Title = blogUpdateModel.Title;
+                updatedBlog.Description = blogUpdateModel.Description;
                 updatedBlog.ImagePath = uploadModel.NewName;
+
 
                 await _blogService.UpdateAsync(updatedBlog);
                 return NoContent();
             }
             else if (uploadModel.UploadState == UploadState.NotExist)
             {
-                var updatedBlog = await _blogService.FindByIdAsync(model.Id);
-                updatedBlog.ShortDescription = model.ImagePath;
-                updatedBlog.Title = model.Title;
-                updatedBlog.Description = model.Description;
+                var updatedBlog = await _blogService.FindByIdAsync(blogUpdateModel.Id);
+                updatedBlog.ShortDescription = blogUpdateModel.ShortDescription;
+                updatedBlog.Title = blogUpdateModel.Title;
+                updatedBlog.Description = blogUpdateModel.Description;
 
                 await _blogService.UpdateAsync(updatedBlog);
                 return NoContent();
@@ -97,26 +102,23 @@ namespace BlogProject.WebApi.Controllers
         }
         [HttpDelete("{id}")]
         [Authorize]
-        [ValidModel]
         [ServiceFilter(typeof(ValidId<Blog>))]
         public async Task<IActionResult> Delete(int id)
         {
-            await _blogService.RemoveAsync(new Blog() { Id = id });
+            await _blogService.RemoveAsync(new Blog { Id = id });
             return NoContent();
         }
 
         [HttpPost("[action]")]
-        [Authorize]
         [ValidModel]
         public async Task<IActionResult> AddToCategory(CategoryBlogDto categoryBlogDto)
         {
             await _blogService.AddToCategoryAsync(categoryBlogDto);
             return Created("", categoryBlogDto);
         }
+
         [HttpDelete("[action]")]
-        [Authorize]
-        [ValidModel]
-        public async Task<IActionResult> RemoveCategory(CategoryBlogDto categoryBlogDto)
+        public async Task<IActionResult> RemoveFromCategory([FromQuery] CategoryBlogDto categoryBlogDto)
         {
             await _blogService.RemoveFromCategoryAsync(categoryBlogDto);
             return NoContent();
@@ -127,6 +129,7 @@ namespace BlogProject.WebApi.Controllers
         public async Task<IActionResult> GetAllByCategoryId(int id)
         {
             return Ok(await _blogService.GetAllByCategoryIdAsync(id));
+
         }
     }
 }

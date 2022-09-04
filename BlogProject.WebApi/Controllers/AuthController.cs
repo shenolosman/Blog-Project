@@ -2,6 +2,7 @@
 using BlogProject.Business.Tools.JwtTool;
 using BlogProject.DTO.DTOs.AppUser;
 using BlogProject.WebApi.CustomFilters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProject.WebApi.Controllers
@@ -30,6 +31,7 @@ namespace BlogProject.WebApi.Controllers
         }
 
         [HttpGet("[action]")]
+        [Authorize]
         public async Task<IActionResult> ActiveUser()
         {
             var user = await _appUserService.FindByNameAsync(User.Identity.Name);
