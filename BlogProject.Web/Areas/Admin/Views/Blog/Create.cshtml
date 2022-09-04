@@ -4,7 +4,10 @@
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
+@section Css
+{
+    <link rel="stylesheet" href="lib/Trumbowyg-main/dist/ui/trumbowyg.min.css"/>
+}
 <h1>Create Blog</h1>
 
 <hr />
@@ -43,3 +46,11 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Js
+{
+    <script src="lib/Trumbowyg-main/dist/trumbowyg.min.js"></script>
+    <script>
+        $("#Description").trumbowyg();
+
+    </script>
+}
