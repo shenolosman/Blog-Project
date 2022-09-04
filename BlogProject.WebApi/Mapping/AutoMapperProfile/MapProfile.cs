@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogProject.DTO.DTOs.Blog;
 using BlogProject.DTO.DTOs.Category;
+using BlogProject.DTO.DTOs.Comment;
 using BlogProject.Entities.Concrete;
 using BlogProject.WebApi.Models;
 
@@ -27,6 +28,9 @@ namespace BlogProject.WebApi.Mapping.AutoMapperProfile
 
             CreateMap<CategoryUpdateDto, Category>();
             CreateMap<Category, CategoryUpdateDto>();
+
+            CreateMap<CommentListDto, Comment>();
+            CreateMap<Comment, CommentListDto>();
         }
     }
 }
