@@ -109,7 +109,7 @@ namespace BlogProject.WebApi.Controllers
         [ServiceFilter(typeof(ValidId<Blog>))]
         public async Task<IActionResult> Delete(int id)
         {
-            await _blogService.RemoveAsync(new Blog { Id = id });
+            await _blogService.RemoveAsync(await _blogService.FindByIdAsync(id));
             return NoContent();
         }
 
@@ -153,6 +153,25 @@ namespace BlogProject.WebApi.Controllers
         public async Task<IActionResult> GetComments([FromRoute] int id, [FromQuery] int? parentCommentId)
         {
             return Ok(_mapper.Map<List<CommentListDto>>(await _commentService.GetAllWithSubCommentsAsync(id, parentCommentId)));
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> Search([FromQuery] string s)
+        {
+            if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s))
+            {
+                return NotFound("search string was empty");
+            }
+            return Ok(_mapper.Map<List<BlogListDto>>(await _blogService.SearchAsync(s)));
+        }
+
+        [HttpPost("[action]")]
+        [ValidModel]
+        public async Task<IActionResult> AddComment(CommentAddDto model)
+        {
+            model.PostedTime = DateTime.Now;
+            await _commentService.AddAsync(_mapper.Map<Comment>(model));
+            return Created("", model);
         }
     }
 }

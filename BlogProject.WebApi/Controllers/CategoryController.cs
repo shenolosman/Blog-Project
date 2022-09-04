@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BlogProject.Business.Interfaces;
+using BlogProject.Business.Tools.LogTool;
 using BlogProject.DTO.DTOs.Category;
 using BlogProject.Entities.Concrete;
 using BlogProject.WebApi.CustomFilters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogProject.WebApi.Controllers
@@ -14,11 +16,13 @@ namespace BlogProject.WebApi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICategoryService _categoryService;
+        private readonly ICustomLogger _customLogger;
 
-        public CategoryController(IMapper mapper, ICategoryService categoryService)
+        public CategoryController(IMapper mapper, ICategoryService categoryService, ICustomLogger customLogger)
         {
             _mapper = mapper;
             _categoryService = categoryService;
+            _customLogger = customLogger;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -59,7 +63,7 @@ namespace BlogProject.WebApi.Controllers
         [ServiceFilter(typeof(ValidId<Category>))]
         public async Task<IActionResult> Delete(int id)
         {
-            await _categoryService.RemoveAsync(new Category() { Id = id });
+            await _categoryService.RemoveAsync(await _categoryService.FindByIdAsync(id));
             return NoContent();
         }
 
@@ -82,5 +86,12 @@ namespace BlogProject.WebApi.Controllers
             return Ok(listCategory);
         }
 
+        [Route("/Error")]
+        public IActionResult Error()
+        {
+            var errorInfo = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            _customLogger.LogError($"\nError place: {errorInfo.Path}\n Error message: {errorInfo.Error.Message}\n Stack trace: {errorInfo.Error.StackTrace}");
+            return Problem(detail: "Please contact with developers.");
+        }
     }
 }

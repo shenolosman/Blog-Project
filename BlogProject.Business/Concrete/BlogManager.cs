@@ -59,5 +59,12 @@ namespace BlogProject.Business.Concrete
         {
             return await _blogDal.GetLastFiveAsync();
         }
+
+        public async Task<List<Blog>> SearchAsync(string searchString)
+        {
+            return await _blogDal.GetAllAsync(
+                x => x.Title.Contains(searchString) || x.ShortDescription.Contains(searchString) ||
+                     x.Description.Contains(searchString), x => x.PostedTime);
+        }
     }
 }
