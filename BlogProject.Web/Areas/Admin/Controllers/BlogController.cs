@@ -35,5 +35,29 @@ namespace BlogProject.Web.Areas.Admin.Controllers
             }
             return View(model);
         }
+        public async Task<IActionResult> Update(int id)
+        {
+            var blogList = await _blogApiService.GetByIdAsync(id);
+            return View(new BlogUpdateModel
+            {
+                Id = blogList.Id,
+                ShortDescription = blogList.ShortDescription,
+                Description = blogList.Description,
+                Title = blogList.Title
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(BlogUpdateModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            await _blogApiService.UpdateAsync(model);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _blogApiService.DeleteAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }
