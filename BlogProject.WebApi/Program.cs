@@ -19,7 +19,8 @@ builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsi
 builder.Services.AddDependencies();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));  //typeof(Program).Assembly
-
+builder.Services.Configure<JwtInfo>(builder.Configuration.GetSection("JwtInfo"));
+var jwtInfo = builder.Configuration.GetSection("JwtInfo").Get<JwtInfo>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(ValidId<>));
@@ -30,9 +31,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     opt.RequireHttpsMetadata = false;
     opt.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidIssuer = JwtInfo.Issuer,
-        ValidAudience = JwtInfo.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtInfo.SecurityKey)),
+        ValidIssuer = jwtInfo.Issuer,
+        ValidAudience = jwtInfo.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtInfo.SecurityKey)),
         ValidateLifetime = true,
         ValidateIssuer = true,
         ValidateAudience = true,

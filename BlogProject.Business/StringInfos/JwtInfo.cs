@@ -2,10 +2,10 @@
 {
     public class JwtInfo
     {
-        public const string Issuer = "http://localhost:52395";
-        public const string Audience = "http://localhost:5000";
-        public const string SecurityKey = "BlogProject2022BlogProject2022";
-        public const double Expires = 40;
+        public string Issuer { get; set; }
+        public string Audience { get; set; }
+        public string SecurityKey { get; set; }
+        public double Expires { get; set; }
 
     }
 }
