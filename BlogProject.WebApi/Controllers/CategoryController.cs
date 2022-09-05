@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using BlogProject.Business.Interfaces;
-using BlogProject.Business.Tools.LogTool;
+using BlogProject.Business.Tools.FacadeTool;
 using BlogProject.DTO.DTOs.Category;
 using BlogProject.Entities.Concrete;
 using BlogProject.WebApi.CustomFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BlogProject.WebApi.Controllers
 {
@@ -16,18 +17,25 @@ namespace BlogProject.WebApi.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICategoryService _categoryService;
-        private readonly ICustomLogger _customLogger;
+        private readonly IFacade _facade;
 
-        public CategoryController(IMapper mapper, ICategoryService categoryService, ICustomLogger customLogger)
+        public CategoryController(IMapper mapper, ICategoryService categoryService, IFacade facade)
         {
             _mapper = mapper;
             _categoryService = categoryService;
-            _customLogger = customLogger;
+            _facade = facade;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(_mapper.Map<List<CategoryListDto>>(await _categoryService.GetAllSortedByIdAsync()));
+            if (_facade.MemoryCache.TryGetValue("catList", out List<CategoryListDto> list))
+            {
+                return Ok(list);
+            }
+            var catList = _mapper.Map<List<CategoryListDto>>(await _categoryService.GetAllSortedByIdAsync());
+
+            _facade.MemoryCache.Set("catList", catList, new MemoryCacheEntryOptions() { AbsoluteExpiration = DateTime.Now.AddDays(1), Priority = CacheItemPriority.Normal });
+            return Ok(catList);
         }
 
         [HttpGet("{id}")]
@@ -90,7 +98,7 @@ namespace BlogProject.WebApi.Controllers
         public IActionResult Error()
         {
             var errorInfo = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            _customLogger.LogError($"\nError place: {errorInfo.Path}\n Error message: {errorInfo.Error.Message}\n Stack trace: {errorInfo.Error.StackTrace}");
+            _facade.CustomLogger.LogError($"\nError place: {errorInfo.Path}\n Error message: {errorInfo.Error.Message}\n Stack trace: {errorInfo.Error.StackTrace}");
             return Problem(detail: "Please contact with developers.");
         }
     }

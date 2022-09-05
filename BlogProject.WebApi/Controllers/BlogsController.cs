@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogProject.Business.Interfaces;
+using BlogProject.Business.Tools.FacadeTool;
 using BlogProject.DTO.DTOs.Blog;
 using BlogProject.DTO.DTOs.Category;
 using BlogProject.DTO.DTOs.CategoryBlog;
@@ -21,25 +22,25 @@ namespace BlogProject.WebApi.Controllers
         private readonly IBlogService _blogService;
         private readonly IMapper _mapper;
         private readonly ICommentService _commentService;
-        private readonly IMemoryCache _memoryCache;
-        public BlogsController(IBlogService blogService, IMapper mapper, ICommentService commentService, IMemoryCache memoryCache)
+        private readonly IFacade _facade;
+        public BlogsController(IBlogService blogService, IMapper mapper, ICommentService commentService, IFacade facade)
         {
             _blogService = blogService;
             _mapper = mapper;
             _commentService = commentService;
-            _memoryCache = memoryCache;
+            _facade = facade;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            if (_memoryCache.TryGetValue("blogList", out List<BlogListDto> list))
+            if (_facade.MemoryCache.TryGetValue("blogList", out List<BlogListDto> list))
             {
                 return Ok(list);
             }
             var blogList = _mapper.Map<List<BlogListDto>>(await _blogService.GetAllSortedByPostedTimeAsync());
 
-            _memoryCache.Set("blogList", blogList, new MemoryCacheEntryOptions() { AbsoluteExpiration = DateTime.Now.AddDays(1), Priority = CacheItemPriority.Normal });
+            _facade.MemoryCache.Set("blogList", blogList, new MemoryCacheEntryOptions() { AbsoluteExpiration = DateTime.Now.AddDays(1), Priority = CacheItemPriority.Normal });
             return Ok(blogList);
         }
 

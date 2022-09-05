@@ -1,5 +1,6 @@
 ﻿using BlogProject.Business.Concrete;
 using BlogProject.Business.Interfaces;
+using BlogProject.Business.Tools.FacadeTool;
 using BlogProject.Business.Tools.JwtTool;
 using BlogProject.Business.Tools.LogTool;
 using BlogProject.Business.ValidationRules.FluentValidation;
@@ -39,6 +40,8 @@ namespace BlogProject.Business.Containers.MicrosoftIoC
 
             services.AddScoped<IJwtService, JwtManager>();
             services.AddScoped<ICustomLogger, NLogAdapter>();
+
+            services.AddScoped<IFacade, Facade>();
 
             services.AddTransient<IValidator<AppUserLoginDto>, AppUserLoginValidator>();
             services.AddTransient<IValidator<CategoryAddDto>, CategoryAddValidator>();
