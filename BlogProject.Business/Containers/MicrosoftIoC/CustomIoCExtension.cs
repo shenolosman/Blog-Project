@@ -3,6 +3,7 @@ using BlogProject.Business.Interfaces;
 using BlogProject.Business.Tools.JwtTool;
 using BlogProject.Business.Tools.LogTool;
 using BlogProject.Business.ValidationRules.FluentValidation;
+using BlogProject.DataAccess.Concrete.EntityFrameworkCore.Context;
 using BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories;
 using BlogProject.DataAccess.Interfaces;
 using BlogProject.DTO.DTOs.AppUser;
@@ -18,6 +19,8 @@ namespace BlogProject.Business.Containers.MicrosoftIoC
     {
         public static void AddDependencies(this IServiceCollection services)
         {
+            services.AddDbContext<DatabaseContext>();
+
             services.AddScoped(typeof(IGenericDal<>), typeof(EfGenericRepository<>));
             services.AddScoped(typeof(IGenericService<>), typeof(GenericManager<>));
 

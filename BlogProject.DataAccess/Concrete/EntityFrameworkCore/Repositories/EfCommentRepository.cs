@@ -6,19 +6,22 @@ using Microsoft.EntityFrameworkCore;
 namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfCommentRepository : EfGenericRepository<Comment>, ICommentDal
-
     {
+        private readonly DatabaseContext _context;
+        public EfCommentRepository(DatabaseContext context) : base(context)
+        {
+            _context = context;
+        }
         public async Task<List<Comment>> GetAllWithSubCommentsAsync(int blogId, int? parentId)
         {
-            List<Comment> result = new List<Comment>();
+            var result = new List<Comment>();
             await GetComments(blogId, parentId, result);
             return result;
         }
 
         private async Task GetComments(int blogId, int? parentId, List<Comment> result)
         {
-            await using var context = new DatabaseContext();
-            var comments = await context.Comments.Where(x => x.BlogId == blogId && x.ParentCommentId == parentId)
+            var comments = await _context.Comments.Where(x => x.BlogId == blogId && x.ParentCommentId == parentId)
                 .OrderByDescending(x => x.PostedTime).ToListAsync();
 
             if (comments.Count > 0)
@@ -26,9 +29,8 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories
                 foreach (var comment in comments)
                 {
                     if (comment.SubComments == null)
-                    {
                         comment.SubComments = new List<Comment>();
-                    }
+
                     //recursive method to add whole tree with sub comments
                     await GetComments(comment.BlogId, comment.Id, comment.SubComments);
 

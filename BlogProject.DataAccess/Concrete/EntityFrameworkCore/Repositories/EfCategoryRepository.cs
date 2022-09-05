@@ -7,10 +7,14 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfCategoryRepository : EfGenericRepository<Category>, ICategoryDal
     {
+        private readonly DatabaseContext _context;
+        public EfCategoryRepository(DatabaseContext context) : base(context)
+        {
+            _context = context;
+        }
         public async Task<List<Category>> GetAllWithCategoryBlogsAsync()
         {
-            await using var context = new DatabaseContext();
-            return await context.Categories.OrderByDescending(x => x.Id).Include(x => x.CategoryBlogs).ToListAsync();
+            return await _context.Categories.OrderByDescending(x => x.Id).Include(x => x.CategoryBlogs).ToListAsync();
         }
     }
 }

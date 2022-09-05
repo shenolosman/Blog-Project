@@ -1,14 +1,21 @@
 ﻿using BlogProject.DataAccess.Concrete.EntityFrameworkCore.Mapping;
 using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Context
 {
     public class DatabaseContext : DbContext
     {
+        private readonly IConfiguration _configuration;
+
+        public DatabaseContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=(localdb)\\mssqllocaldb;database=BlogProjectAspCore;Integrated Security=True;");
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("db"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
