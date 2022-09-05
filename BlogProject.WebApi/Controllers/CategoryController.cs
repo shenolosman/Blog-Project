@@ -5,7 +5,6 @@ using BlogProject.DTO.DTOs.Category;
 using BlogProject.Entities.Concrete;
 using BlogProject.WebApi.CustomFilters;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -94,12 +93,6 @@ namespace BlogProject.WebApi.Controllers
             return Ok(listCategory);
         }
 
-        [Route("/Error")]
-        public IActionResult Error()
-        {
-            var errorInfo = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            _facade.CustomLogger.LogError($"\nError place: {errorInfo.Path}\n Error message: {errorInfo.Error.Message}\n Stack trace: {errorInfo.Error.StackTrace}");
-            return Problem(detail: "Please contact with developers.");
-        }
+
     }
 }
