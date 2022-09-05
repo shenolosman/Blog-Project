@@ -11,7 +11,6 @@ builder.Services.AddHttpClient<IBlogApiService, BlogApiManager>();
 builder.Services.AddHttpClient<ICategoryService, CategoryManager>();
 builder.Services.AddHttpClient<IImageApiService, ImageApiManager>();
 builder.Services.AddHttpClient<IAuthService, AuthManager>();
-
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -25,8 +24,7 @@ if (!app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseSession();
 app.UseStaticFiles();
-//app.UseAuthentication();
-//app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(name: "areas", pattern: "{area}/{controller=Blog}/{action=Index}/{id?}");

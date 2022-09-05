@@ -10,6 +10,7 @@ using BlogProject.WebApi.Enums;
 using BlogProject.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BlogProject.WebApi.Controllers
 {
@@ -20,18 +21,26 @@ namespace BlogProject.WebApi.Controllers
         private readonly IBlogService _blogService;
         private readonly IMapper _mapper;
         private readonly ICommentService _commentService;
-
-        public BlogsController(IBlogService blogService, IMapper mapper, ICommentService commentService)
+        private readonly IMemoryCache _memoryCache;
+        public BlogsController(IBlogService blogService, IMapper mapper, ICommentService commentService, IMemoryCache memoryCache)
         {
             _blogService = blogService;
             _mapper = mapper;
             _commentService = commentService;
+            _memoryCache = memoryCache;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(_mapper.Map<List<BlogListDto>>(await _blogService.GetAllSortedByPostedTimeAsync()));
+            if (_memoryCache.TryGetValue("blogList", out List<BlogListDto> list))
+            {
+                return Ok(list);
+            }
+            var blogList = _mapper.Map<List<BlogListDto>>(await _blogService.GetAllSortedByPostedTimeAsync());
+
+            _memoryCache.Set("blogList", blogList, new MemoryCacheEntryOptions() { AbsoluteExpiration = DateTime.Now.AddDays(1), Priority = CacheItemPriority.Normal });
+            return Ok(blogList);
         }
 
         [HttpGet("{id}")]
