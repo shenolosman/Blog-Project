@@ -3,19 +3,25 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-<a asp-action="Create" asp-controller="Category" class="btn btn-info">New Category</a>
-<table class="table table-bordered table-hover">
+<a asp-action="Create" asp-controller="Category" class="btn btn-outline-primary my-2">New Category</a>
+<table class="table table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Issue</th>
+    </tr>
+    </thead>
     <tbody>
-        @foreach (var category in Model)
-        {
-            <tr>
-                <td>@category.Name</td>
-                <td>
-                    <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
+    @foreach (var category in Model)
+    {
+        <tr>
+            <td>@category.Name</td>
+            <td>
+                <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
     </tbody>
 
 </table>

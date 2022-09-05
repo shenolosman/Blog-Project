@@ -4,12 +4,14 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<a asp-action="Create" asp-controller="Blog" class="btn btn-info">New Blog</a>
-<table class="table table-bordered table-hover">
+<a asp-action="Create" asp-controller="Blog" class="btn btn-outline-primary my-2">New Blog</a>
+<table class="table table-bordered table-hover table-sm">
     <thead>
-    <th>Title</th>
-    <th>Category issue</th>
-    <th>Issue</th>
+        <tr>
+            <th>Title</th>
+            <th>Category issue</th>
+            <th>Issue</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var blog in Model)
@@ -17,7 +19,7 @@
             <tr>
                 <td>@blog.Title</td>
                 <td>
-                    <a asp-action="AssignCategory" asp-route-id="@blog.Id">Assign Category</a>
+                    <a asp-action="AssignCategory" asp-route-id="@blog.Id" class="btn btn-outline-primary">Assign Category</a>
                 </td>
                 <td>
                     <a asp-action="Update" asp-route-id="@blog.Id" class="btn btn-warning">Edit</a>

@@ -17,7 +17,7 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar-->
         <div class="border-end bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading border-bottom bg-light">Blog Website</div>
+            <div class="sidebar-heading border-bottom bg-light pt-1">Admin Panel</div>
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3 @(active=="blog"?"active":"")"  asp-action="Index" asp-controller="Blog" asp-area="Admin">Blog</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3 @(active=="category"?"active":"")" asp-action="Index" asp-controller="Category" asp-area="Admin">Category</a>
@@ -29,7 +29,7 @@
             <!-- Top navigation-->
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <div class="container-fluid">
-                    <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+                    <button class="btn btn-primary" id="sidebarToggle">Menu</button>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                   @*  <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
