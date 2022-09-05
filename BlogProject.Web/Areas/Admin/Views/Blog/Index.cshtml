@@ -6,17 +6,25 @@
 
 <a asp-action="Create" asp-controller="Blog" class="btn btn-info">New Blog</a>
 <table class="table table-bordered table-hover">
+    <thead>
+    <th>Title</th>
+    <th>Category issue</th>
+    <th>Issue</th>
+    </thead>
     <tbody>
-    @foreach (var blog in Model)
-    {
-        <tr>
-            <td>@blog.Title</td>
-            <td>
-                <a asp-action="Update" asp-route-id="@blog.Id" class="btn btn-warning">Edit</a> 
-                <a asp-action="Delete" asp-route-id="@blog.Id" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-    }
+        @foreach (var blog in Model)
+        {
+            <tr>
+                <td>@blog.Title</td>
+                <td>
+                    <a asp-action="AssignCategory" asp-route-id="@blog.Id">Assign Category</a>
+                </td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@blog.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@blog.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 
 </table>
