@@ -8,7 +8,7 @@ namespace BlogProject.DataAccess.Concrete.EntityFrameworkCore.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=(localdb)\\mssqllocald;database=BlogProjectAspCore;Integrated Security=True;");
+            optionsBuilder.UseSqlServer("server=(localdb)\\mssqllocaldb;database=BlogProjectAspCore;Integrated Security=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

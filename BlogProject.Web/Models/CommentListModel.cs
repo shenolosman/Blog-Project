@@ -1,6 +1,6 @@
-﻿namespace BlogProject.DTO.DTOs.Comment
+﻿namespace BlogProject.Web.Models
 {
-    public class CommentListDto
+    public class CommentListModel
     {
         public int Id { get; set; }
         public string Description { get; set; }
@@ -9,7 +9,7 @@
         public DateTime PostedTime { get; set; }
         public int? ParentCommentId { get; set; }
 
-        public List<CommentListDto> SubComments { get; set; }
+        public List<CommentListModel> SubComments { get; set; }
 
         public int BlogId { get; set; }
     }
