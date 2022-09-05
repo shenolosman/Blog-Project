@@ -150,7 +150,7 @@ namespace BlogProject.WebApi.Controllers
         }
 
         [HttpGet("{id}/[action]")]
-        public async Task<IActionResult> GetComments(int id, int? parentCommentId)
+        public async Task<IActionResult> GetComments([FromRoute] int id, [FromQuery] int? parentCommentId)
         {
             return Ok(_mapper.Map<List<CommentListDto>>(await _commentService.GetAllWithSubCommentsAsync(id, parentCommentId)));
         }

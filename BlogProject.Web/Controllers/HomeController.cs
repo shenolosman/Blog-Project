@@ -31,7 +31,7 @@ namespace BlogProject.Web.Controllers
 
         public async Task<IActionResult> AddToComment(CommentAddModel model)
         {
-            await _blogApiService.AddtoComment(model);
+            await _blogApiService.AddToComment(model);
             return RedirectToAction("BlogDetail", new { id = model.BlogId });
         }
 
